@@ -28,31 +28,31 @@
     --color-warning: #FACC15;
     --color-warning-lighter: #FDE68A;
     --color-warning-darker: #EAB308;
-    --color-warning-soft: #FACC15;
+    --color-warning-soft: #FACC151A;
 
     --color-error: #F87171;
     --color-error-lighter: #FCA5A5;
     --color-error-darker: #EF4444;
-    --color-error-soft: #F87171;
+    --color-error-soft: #F871711A;
 
     --color-info: #93C5FD;
     --color-info-lighter: #BFDBFE;
     --color-info-darker: #60A5FA;
-    --color-info-soft: #93C5FD;
+    --color-info-soft: #93C5FD1A;
 
     --color-chart-primary: #22C55E;
     --color-chart-secondary: #737373;
-    --color-chart-tertairy: #525252;
+    --color-chart-tertiary: #525252;
     --color-chart-grid: #242424;
     --color-chart-axis: #525252;
     --color-chart-label: #A3A3A3;
 
 
     --radius-xs: 4px;
-    --radius-xs: 6px;
-    --radius-xs: 8px;
-    --radius-xs: 12px;
-    --radius-xs: 16px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
     --radius-full: 9999px;
 
     --text-xs: 12px;
@@ -74,4 +74,64 @@
 
 @utility button--md {
     @apply text-md/normal px-4 rounded-md h-11 gap-2 [&_svg:not([class*='size-'])]:size-6;
+}
+
+@utility button--icon-sm {
+    @apply size-9 rounded-md [&_svg:not([class*='size-'])]:size-4.5;
+}
+
+@utility button--icon-md {
+    @apply size-11 rounded-md [&_svg:not([class*='size-'])]:size-6;
+}
+
+/* Input utilities */
+
+@utility input--sm {
+    @apply h-9 px-3 text-sm/normal rounded-sm;
+}
+
+@utility input--md {
+    @apply h-11 px-3 text-md/normal rounded-sm;
+}
+
+/* Select utilities */
+
+@utility select--sm {
+    @apply h-9 gap-1.5 px-3 text-sm/normal rounded-sm [&_svg:not([class*='size-'])]:size-4.5;
+}
+
+@utility select--md {
+    @apply h-11 gap-2 px-3 text-md/normal rounded-sm [&_svg:not([class*='size-'])]:size-5;
+}
+
+/* Switch utilities */
+
+@utility switch--sm {
+    @apply h-3.5 w-6;
+}
+
+@utility switch--md {
+    @apply h-4 w-7;
+}
+
+@utility switch--thumb-sm {
+    @apply size-3;
+}
+
+@utility switch--thumb-md {
+    @apply size-3.5;
+}
+
+/* Avatar utilities */
+
+@utility avatar--sm {
+    @apply size-6 text-xs;
+}
+
+@utility avatar--md {
+    @apply size-8 text-sm;
+}
+
+@utility avatar--lg {
+    @apply size-10 text-base;
 }

@@ -4,25 +4,27 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-    "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding text-xs/relaxed font-medium whitespace-nowrap transition-all outline-none select-none active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+    "group/button inline-flex shrink-0 items-center justify-center border border-transparent font-medium whitespace-nowrap transition-colors duration-150 ease-out outline-none select-none disabled:pointer-events-none disabled:bg-elevated-surface disabled:text-text-muted disabled:border-transparent [&_svg]:pointer-events-none [&_svg]:shrink-0",
     {
         variants: {
             variant: {
                 primary:
-                    'bg-brand text-black hover:bg-brand-lighter disabled:text-text-muted disabled:bg-[#313131]',
-                outline:
-                    'border-border hover:bg-elevated-surface/50 hover:text-text-primary disabled:text-text-muted disabled:border-text-muted',
+                    'bg-brand text-black hover:bg-brand-lighter',
                 secondary:
-                    'border border-border bg-elevated-surface text-text-primary hover:bg-border disabled:text-text-muted disabled:bg-[#313131]',
+                    'border-border bg-elevated-surface text-text-primary hover:bg-border',
+                outline:
+                    'border-border bg-transparent text-text-primary hover:bg-elevated-surface',
+                ghost:
+                    'bg-transparent text-text-secondary hover:bg-elevated-surface hover:text-text-primary',
                 destructive:
-                    'bg-error text-black hover:bg-error-lighter  active:bg-error-darker disabled:text-text-muted disabled:bg-[#313131]',
-                link: 'text-info-darker underline-offset-4 hover:underline disabled:text-text-muted',
+                    'border-error bg-error-soft text-error hover:bg-error/20',
+                link: 'bg-transparent text-info-darker underline-offset-4 hover:underline disabled:bg-transparent',
             },
             size: {
-                sm: "button--sm",
-                md: "button--md",
-                "icon-sm": "size-9 [&_svg:not([class*='size-'])]:size-4.5",
-                "icon-md": "size-11 [&_svg:not([class*='size-'])]:size-6",
+                sm: 'button--sm',
+                md: 'button--md',
+                'icon-sm': 'button--icon-sm',
+                'icon-md': 'button--icon-md',
             },
         },
         defaultVariants: {
