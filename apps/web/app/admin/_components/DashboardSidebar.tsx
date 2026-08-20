@@ -66,8 +66,8 @@ export default function DashboardSidebar() {
             <SidebarFooter className='p-3'>
                 {user ? (
                     <DropdownMenu>
-                        <DropdownMenuTrigger className="flex w-full items-center gap-2 rounded-lg bg-elevated-surface p-2 text-start outline-none group-data-[collapsible=icon]:size-11 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-1">
-                            <Avatar>
+                        <DropdownMenuTrigger className="flex w-full items-center gap-2 rounded-lg bg-elevated-surface p-2 text-start outline-none group-data-[collapsible=icon]:size-11 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-1 group-data-[collapsible=icon]:bg-transparent">
+                            <Avatar className="group-data-[collapsible=icon]:size-11">
                                 <AvatarFallback>
                                     {user.name.charAt(0)}
                                 </AvatarFallback>

@@ -150,6 +150,9 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
+      react-hook-form:
+        specifier: ^7.85.0
+        version: 7.85.0(react@19.2.0)
       shadcn:
         specifier: ^4.18.0
         version: 4.18.0(typescript@5.9.2)
@@ -165,6 +168,9 @@ importers:
       tw-animate-css:
         specifier: ^1.4.0
         version: 1.4.0
+      zustand:
+        specifier: ^5.0.15
+        version: 5.0.15(@types/react@19.2.2)(react@19.2.0)(use-sync-external-store@1.6.0(react@19.2.0))
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -227,7 +233,14 @@ importers:
         specifier: ^8.50.0
         version: 8.50.0(eslint@9.39.1(jiti@2.7.0))(typescript@5.9.2)
 
-  packages/types: {}
+  packages/types:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: 5.9.2
+        version: 5.9.2
 
   packages/typescript-config: {}
 
@@ -3879,6 +3892,12 @@ packages:
     peerDependencies:
       react: ^19.2.0
 
+  react-hook-form@7.85.0:
+    resolution: {integrity: sha512-U2MTriFXnclmV4rOE20p2DcRFv5WEg3FIcBFOKcOLFHDVvGIMPvLTkTWefUsonmlaVy23khVDxDWym6uJVGOzw==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -4490,6 +4509,7 @@ packages:
   typescript@5.9.2:
     resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
     engines: {node: '>=14.17'}
+    hasBin: true
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
@@ -4695,6 +4715,24 @@ packages:
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
+  zustand@5.0.15:
+    resolution: {integrity: sha512-MpSEjRiBkA9crSYeOUH32rJC7SVqAbm0Fqcqge/bUi2PPoLcBWKOsG+C8mevmpr8TwXHBVkChbbJiyvkE+i/3A==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
 
 snapshots:
 
@@ -8778,6 +8816,10 @@ snapshots:
       react: 19.2.0
       scheduler: 0.27.0
 
+  react-hook-form@7.85.0(react@19.2.0):
+    dependencies:
+      react: 19.2.0
+
   react-is@16.13.1: {}
 
   react-is@18.3.1: {}
@@ -9751,3 +9793,9 @@ snapshots:
       zod: 3.25.76
 
   zod@3.25.76: {}
+
+  zustand@5.0.15(@types/react@19.2.2)(react@19.2.0)(use-sync-external-store@1.6.0(react@19.2.0)):
+    optionalDependencies:
+      '@types/react': 19.2.2
+      react: 19.2.0
+      use-sync-external-store: 1.6.0(react@19.2.0)

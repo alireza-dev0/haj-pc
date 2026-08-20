@@ -109,9 +109,9 @@ export default function Header() {
                         <Calendar className="size-4 text-text-secondary"></Calendar>
                     </div>
                     <span className="text-text-secondary text-xs">
-                        {date.getDate()}{' '}
-                        {date.toLocaleString('fa-IR', { month: 'long' })}{' '}
-                        {date.getFullYear()}
+                        {date.toLocaleDateString("fa-IR", { day: '2-digit' })}{' '}
+                        {date.toLocaleDateString("fa-IR", { month: 'long' })}{' '}
+                        {date.toLocaleDateString("fa-IR", { year: 'numeric' })}
                     </span>
                 </div>
             </div>

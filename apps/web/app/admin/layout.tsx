@@ -18,7 +18,7 @@ export default function AdminLayout({ children }: LayoutProps<'/admin'>) {
                     {
                         '--sidebar-width': '240px',
                         '--sidebar-width-mobile': '20rem',
-                        '--sidebar-width-icon': '60px'
+                        '--sidebar-width-icon': '68px'
                     } as React.CSSProperties
                 }
             >

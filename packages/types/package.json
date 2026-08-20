@@ -1,8 +1,15 @@
 {
   "name": "@repo/types",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
   "private": true,
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "5.9.2"
+  }
 }

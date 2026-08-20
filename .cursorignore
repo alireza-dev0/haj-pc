@@ -1,0 +1,13 @@
+/node_modules
+/apps/*/node_modules
+
+/apps/*/dist
+/apps/*/public
+
+/apps/*/prettier.config.js
+/apps/*/.prettierrc
+
+/apps/web/.next
+
+
+/packages/*/node_modules
