@@ -117,7 +117,7 @@ export default function RevenueByCategoryChart({
                     }
                 >
                     <SelectTrigger
-                        render={({ children, ...props }) => (
+                        render={({ children, className, ...props }) => (
                             <Button
                                 className="group shrink-0"
                                 variant="secondary"
