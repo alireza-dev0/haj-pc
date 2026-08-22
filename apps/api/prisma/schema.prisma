@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+    provider = "prisma-client"
+    output   = "../src/prisma/generated"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum UserRole {
+    ADMIN
+    USER
+}
+
+enum OrderStatus {
+    PENDING
+    PROCESSING
+    SHIPPED
+    DELIVERED
+}
+
+model User {
+    id        String   @id
+    email     String   @unique
+    password  String
+    name      String
+    role      UserRole @default(ADMIN)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Category {
+    id          String   @id
+    name        String
+    slug        String   @unique
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    products Product[]
+}
+
+model Product {
+    id          String   @id
+    name        String
+    categoryId  String
+    price       Int
+    stock       Int      @default(0)
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    category   Category       @relation(fields: [categoryId], references: [id])
+    images     ProductImage[]
+    orderItems OrderItem[]
+
+    @@index([categoryId])
+}
+
+model ProductImage {
+    id        String   @id
+    productId String
+    url       String
+    sortOrder Int      @default(0)
+    isPrimary Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    product Product @relation(fields: [productId], references: [id])
+
+    @@index([url])
+}
+
+model Order {
+    id            String      @id
+    customerName  String
+    customerPhone String
+    status        OrderStatus @default(PENDING)
+    totalAmount   Int
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+
+    items OrderItem[]
+
+    @@index([status])
+    @@index([createdAt])
+}
+
+model OrderItem {
+    id           String @id
+    orderId      String
+    productId    String
+    quantity     Int
+    priceAtOrder Int
+
+    order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    product Product @relation(fields: [productId], references: [id])
+
+    @@index([orderId])
+    @@index([productId])
+}
