@@ -136,7 +136,7 @@ export default function RevenueChart({
                     }
                 >
                     <SelectTrigger
-                        render={({ children, ...props }) => (
+                        render={({ children, className, ...props }) => (
                             <Button
                                 className="group"
                                 variant="secondary"
