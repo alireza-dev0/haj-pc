@@ -66,6 +66,11 @@
 }
 
 
+/* font */
+@utility font-nunito {
+    font-family: 'Nunito', sans-serif;
+}
+
 /* Button utilities */
 
 @utility button--sm {

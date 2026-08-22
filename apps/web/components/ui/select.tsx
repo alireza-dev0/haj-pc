@@ -41,7 +41,7 @@ function SelectTrigger({
             data-slot="select-trigger"
             data-size={size}
             className={cn(
-                'flex w-fit items-center justify-between border border-border bg-elevated-surface text-text-primary whitespace-nowrap transition-colors duration-150 ease-out outline-none focus-visible:border-brand focus-visible:ring-1 focus-visible:ring-brand-soft disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-error data-placeholder:text-text-muted *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+                'group/trigger flex w-fit items-center justify-between border border-border bg-elevated-surface text-text-primary whitespace-nowrap transition-colors duration-150 ease-out outline-none focus-visible:border-brand focus-visible:ring-1 focus-visible:ring-brand-soft disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-error data-placeholder:text-text-muted *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0',
                 size === 'sm' ? 'select--sm' : 'select--md',
                 className,
             )}
@@ -50,7 +50,7 @@ function SelectTrigger({
             {children}
             <SelectPrimitive.Icon
                 render={
-                    <ChevronDownIcon className="pointer-events-none size-4 text-text-muted" />
+                    <ChevronDownIcon className="pointer-events-none size-4 text-text-muted group-hover:text-text-primary group-data-popup-open:rotate-180 transition-transform duration-150 ease-out" />
                 }
             />
         </SelectPrimitive.Trigger>
@@ -91,7 +91,9 @@ function SelectContent({
                     {...props}
                 >
                     <SelectScrollUpButton />
-                    <SelectPrimitive.List>{children}</SelectPrimitive.List>
+                    <SelectPrimitive.List
+                        className="p-1"
+                    >{children}</SelectPrimitive.List>
                     <SelectScrollDownButton />
                 </SelectPrimitive.Popup>
             </SelectPrimitive.Positioner>
