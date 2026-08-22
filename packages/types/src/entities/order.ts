@@ -1,8 +1,4 @@
 
-// Order
-
-import type { Product } from './product';
-import type { User } from './user';
 
 export enum OrderStatus {
     PENDING = 'pending',
@@ -13,25 +9,25 @@ export enum OrderStatus {
 }
 
 
-export interface Order {
+export interface IOrder {
     id: string;
-    user: User;
+    // user: User;
     total: number;
 
     status: OrderStatus;
 
-    items: OrderItem[];
+    // items: OrderItem[];
 
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
 
 // OrderItem
 
-export interface OrderItem {
+export interface IOrderItem {
     id: string;
-    order: Order;
-    product: Product;
+    // order: Order;
+    // product: Product;
     quantity: number;
     price: number;
 }

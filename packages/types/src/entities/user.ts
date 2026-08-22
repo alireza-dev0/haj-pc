@@ -1,4 +1,3 @@
-import type { Order } from './order';
 
 export enum UserRole {
     ADMIN = 'admin',
@@ -6,7 +5,7 @@ export enum UserRole {
 }
 
 
-export interface User {
+export interface IUser {
 
     id: string;
     name: string;
@@ -15,8 +14,8 @@ export interface User {
 
     role: UserRole;
 
-    orders: Order[];
+    // orders: Order[];
 
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
