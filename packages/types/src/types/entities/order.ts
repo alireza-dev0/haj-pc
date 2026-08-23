@@ -1,9 +1,5 @@
-export enum OrderStatus {
-    PENDING = 'PENDING',
-    PROCESSING = 'PROCESSING',
-    SHIPPED = 'SHIPPED',
-    DELIVERED = 'DELIVERED',
-}
+
+export type OrderStatus = 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED';
 
 export interface IOrder {
     id: string;

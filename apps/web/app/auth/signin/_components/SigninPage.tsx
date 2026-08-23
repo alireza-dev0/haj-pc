@@ -23,7 +23,7 @@ export function SigninPage() {
     const {
         register,
         onSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting }
     } = useSignin();
 
     return (

@@ -23,7 +23,7 @@ export const useAuth = create<AuthState>((set) => ({
                 id: '1',
                 email: 'test@test.com',
                 name: 'Test User',
-                role: UserRole.ADMIN,
+                role: "ADMIN",
             },
             isLoading: false,
         });
