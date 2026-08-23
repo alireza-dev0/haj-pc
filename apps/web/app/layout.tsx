@@ -20,10 +20,6 @@ const shabnam = localFont({
     ],
 });
 
-// ../public/fonts/nunito/Nunito-Bold.ttf
-// ../public/fonts/nunito/Nunito-Medium.ttf
-// ../public/fonts/nunito/Nunito-Regular.ttf
-// ../public/fonts/nunito/Nunito-SemiBold.ttf
 
 const nunito = localFont({
     src: [
