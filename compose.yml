@@ -1,0 +1,17 @@
+
+services:
+    postgres:
+        image: postgres:17-alpine
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: haj-pc
+
+    redis:
+        image: redis:8-alpine
+        ports:
+            - 6379:6379
+        environment:
+            REDIS_PASSWORD: redis

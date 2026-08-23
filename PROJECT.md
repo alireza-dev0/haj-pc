@@ -1,9 +1,11 @@
 # Project: PC Parts Store — Admin Panel
 
 ## Overview
+
 An admin dashboard for managing a computer parts e-commerce store. This is the **admin/management side only** — no public storefront in this phase. The storefront may be built later as a separate project.
 
 ## Scope Boundary
+
 This project = **admin panel only**: product management, order management, and a summary dashboard. No checkout flow, no public product pages, no payment gateway integration.
 
 ---
@@ -11,6 +13,7 @@ This project = **admin panel only**: product management, order management, and a
 ## Domain / Categories
 
 Products belong to one of these fixed categories (no subcategories, no nested taxonomy):
+
 - Case (کیس)
 - Power Supply (پاور)
 - RAM (رم)
@@ -27,6 +30,7 @@ No laptops, no peripherals, no other categories. Do not add fields specific to e
 ## Data Model
 
 ### User (admin)
+
 - id
 - email
 - password (hashed)
@@ -34,6 +38,7 @@ No laptops, no peripherals, no other categories. Do not add fields specific to e
 - role (single role: `admin` — no multi-role system)
 
 ### Product
+
 - id
 - name
 - category (enum: the 8 categories above)
@@ -44,6 +49,7 @@ No laptops, no peripherals, no other categories. Do not add fields specific to e
 - createdAt / updatedAt
 
 ### Order
+
 - id
 - customerName
 - customerPhone (or email — pick one, keep it simple)
@@ -52,6 +58,7 @@ No laptops, no peripherals, no other categories. Do not add fields specific to e
 - createdAt / updatedAt
 
 ### OrderItem
+
 - id
 - orderId (relation to Order)
 - productId (relation to Product)
@@ -63,12 +70,14 @@ No laptops, no peripherals, no other categories. Do not add fields specific to e
 ## Features
 
 ### 1. Auth
+
 - Login (email + password → JWT)
 - Logout
 - Get current user (`/auth/me`)
 - No signup flow needed — admin account is seeded, not self-registered.
 
 ### 2. Product Management
+
 - List products (with filter by category, search by name)
 - Create product
 - Edit product
@@ -76,17 +85,20 @@ No laptops, no peripherals, no other categories. Do not add fields specific to e
 - View single product detail
 
 ### 3. Order Management
+
 - List orders (with filter by status)
 - View single order detail (customer info + list of items + total)
 - Update order status (dropdown: pending → processing → shipped → delivered)
 - No order creation form needed — orders are seeded as fake data (see Seed Data section). Admin only views and updates status.
 
 ### 4. Dashboard (summary page)
+
 - KPI cards: total orders, total revenue, low-stock product count (stock < 5, threshold can be hardcoded)
 - Chart: sales over time (line or bar chart, by day/week)
 - Chart: order count or revenue by category (pie or bar chart)
 
 ### 5. (Optional — only if time remains)
+
 - Customer list (derived from orders, no separate customer accounts/auth needed)
 - CSV export of orders or products
 
@@ -111,6 +123,7 @@ No laptops, no peripherals, no other categories. Do not add fields specific to e
 ## Seed Data Requirement
 
 Since there is no public storefront generating real orders, write a seed script that creates:
+
 - ~15-20 products spread across all 8 categories, with realistic names and approximate real prices
 - ~20-30 fake orders with random statuses, dates spread over the last 1-2 months, and 1-3 order items each
 
@@ -119,6 +132,7 @@ This is required for the dashboard charts and KPIs to show meaningful data inste
 ---
 
 ## Tech Notes (keep minimal, standard)
+
 - Error handling: one global exception filter, nothing custom per-module
 - Logging: basic console logging is enough, no structured logging pipeline
 - API docs: basic Swagger setup is enough if used, not required to document every field in depth

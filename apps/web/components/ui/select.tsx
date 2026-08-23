@@ -50,7 +50,7 @@ function SelectTrigger({
             {children}
             <SelectPrimitive.Icon
                 render={
-                    <ChevronDownIcon className="pointer-events-none size-4 text-text-muted group-hover:text-text-primary group-data-popup-open:rotate-180 transition-transform duration-150 ease-out" />
+                    <ChevronDownIcon className="pointer-events-none size-4 text-text-muted group-hover/trigger:text-text-primary group-data-popup-open/trigger:rotate-180 transition-transform duration-150 ease-out" />
                 }
             />
         </SelectPrimitive.Trigger>
@@ -91,9 +91,9 @@ function SelectContent({
                     {...props}
                 >
                     <SelectScrollUpButton />
-                    <SelectPrimitive.List
-                        className="p-1"
-                    >{children}</SelectPrimitive.List>
+                    <SelectPrimitive.List className="p-1">
+                        {children}
+                    </SelectPrimitive.List>
                     <SelectScrollDownButton />
                 </SelectPrimitive.Popup>
             </SelectPrimitive.Positioner>

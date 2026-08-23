@@ -1,22 +1,14 @@
-import type { Order } from './order';
-
 export enum UserRole {
-    ADMIN = 'admin',
-    USER = 'user',
+    ADMIN = 'ADMIN',
+    USER = 'USER',
 }
 
-
-export interface User {
-
+export interface IUser {
     id: string;
-    name: string;
     email: string;
     password: string;
-
+    name: string;
     role: UserRole;
-
-    orders: Order[];
-
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }

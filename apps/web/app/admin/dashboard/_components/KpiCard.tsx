@@ -33,7 +33,7 @@ export default function KpiCard({
             <div className="w-full flex-col gap-1">
                 <div className="flex items-baseline flex-wrap gap-1 text-text-primary">
                     <span className="inline-block font-bold text-[41px] text-inherit lg:text-[28px]">
-                        {Intl.NumberFormat("en-US").format(value)}
+                        {Intl.NumberFormat('en-US').format(value)}
                     </span>
                     <span className="inline-block text-lg font-medium text-inherit">
                         {label}

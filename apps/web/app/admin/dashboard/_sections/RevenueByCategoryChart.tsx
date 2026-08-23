@@ -162,8 +162,7 @@ export default function RevenueByCategoryChart({
                                         indicator="dot"
                                         nameKey="revenue"
                                         labelFormatter={(_, tooltipPayload) =>
-                                            tooltipPayload[0]?.payload
-                                                ?.category
+                                            tooltipPayload[0]?.payload?.category
                                         }
                                     />
                                 }
