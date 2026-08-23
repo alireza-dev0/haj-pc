@@ -6,6 +6,7 @@ interface UserPayload extends Pick<IUser, 'id' | 'email' | 'name' | 'role'> {}
 interface AuthState {
     user: UserPayload | null;
     isLoading: boolean;
+    setUser: (user: UserPayload | null) => void;
     login: () => Promise<void>;
     logout: () => Promise<void>;
 }
@@ -13,6 +14,7 @@ interface AuthState {
 export const useAuth = create<AuthState>((set) => ({
     user: null,
     isLoading: false,
+    setUser: (user) => set({ user }),
     login: async () => {
         set({ isLoading: true });
 
