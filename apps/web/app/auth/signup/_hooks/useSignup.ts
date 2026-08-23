@@ -1,10 +1,11 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 import { clientApi, getApiError } from '@/utils/api';
 import { useAuth } from '@/store/useAuth';
+import { IUser } from '@repo/types';
 
 type SignupValues = {
     name: string;
@@ -12,14 +13,13 @@ type SignupValues = {
     password: string;
 };
 
-type AuthUser = {
-    id: string;
-    email: string;
-    name: string;
-    role: 'USER' | 'ADMIN';
+type AuthUser = Pick<IUser, "id" | "name" | "email" | "role">
+
+type UseSignupReturn = UseFormReturn<SignupValues> & {
+    onSubmit: ReturnType<UseFormReturn<SignupValues>['handleSubmit']>;
 };
 
-export function useSignup() {
+export function useSignup(): UseSignupReturn {
     const router = useRouter();
     const setUser = useAuth((s) => s.setUser);
 
