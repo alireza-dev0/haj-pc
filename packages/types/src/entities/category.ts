@@ -1,12 +1,8 @@
-
-
 export interface ICategory {
     id: string;
     name: string;
     slug: string;
-
-    // products: Product[];
-
+    description: string;
     createdAt: string;
     updatedAt: string;
 }

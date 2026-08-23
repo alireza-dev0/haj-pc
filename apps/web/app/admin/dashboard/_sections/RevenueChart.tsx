@@ -167,8 +167,10 @@ export default function RevenueChart({
                     </SelectContent>
                 </Select>
             </header>
-            <main className="w-full min-w-0 overflow-x-auto max-w-full scrollbar-auto
-            ">
+            <main
+                className="w-full min-w-0 overflow-x-auto max-w-full scrollbar-auto
+            "
+            >
                 <div dir="ltr" className="w-full min-w-120">
                     <ChartContainer
                         config={chartConfig}

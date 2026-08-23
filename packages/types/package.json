@@ -1,15 +1,15 @@
 {
-  "name": "@repo/types",
-  "version": "0.0.1",
-  "private": true,
-  "license": "UNLICENSED",
-  "type": "module",
-  "exports": {
-    ".": "./src/index.ts"
-  },
-  "types": "./src/index.ts",
-  "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "typescript": "5.9.2"
-  }
+    "name": "@repo/types",
+    "version": "0.0.1",
+    "private": true,
+    "license": "UNLICENSED",
+    "type": "module",
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "types": "./src/index.ts",
+    "devDependencies": {
+        "@repo/typescript-config": "workspace:*",
+        "typescript": "5.9.2"
+    }
 }

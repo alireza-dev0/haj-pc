@@ -1,21 +1,14 @@
-
 export enum UserRole {
-    ADMIN = 'admin',
-    USER = 'user',
+    ADMIN = 'ADMIN',
+    USER = 'USER',
 }
 
-
 export interface IUser {
-
     id: string;
-    name: string;
     email: string;
     password: string;
-
+    name: string;
     role: UserRole;
-
-    // orders: Order[];
-
     createdAt: string;
     updatedAt: string;
 }

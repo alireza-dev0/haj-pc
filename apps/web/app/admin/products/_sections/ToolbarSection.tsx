@@ -11,7 +11,11 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+} from '@/components/ui/input-group';
 import {
     Dialog,
     DialogContent,
@@ -29,8 +33,15 @@ const sortOptions = [
 ] as const;
 
 export default function ToolbarSection() {
-    const { sort, search, categoryId, setSort, setSearch, setCategoryId, resetFilters } =
-        useFiltersStore();
+    const {
+        sort,
+        search,
+        categoryId,
+        setSort,
+        setSearch,
+        setCategoryId,
+        resetFilters,
+    } = useFiltersStore();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     return (
@@ -60,7 +71,9 @@ export default function ToolbarSection() {
                             <Button
                                 size="md"
                                 variant="secondary"
-                                className={cn('group/trigger w-full grow shrink text-sm')}
+                                className={cn(
+                                    'group/trigger w-full grow shrink text-sm',
+                                )}
                                 {...props}
                             >
                                 {children}
@@ -112,7 +125,9 @@ export default function ToolbarSection() {
                             <Select
                                 value={categoryId ?? 'all'}
                                 onValueChange={(value) =>
-                                    setCategoryId(value === 'all' ? null : value)
+                                    setCategoryId(
+                                        value === 'all' ? null : value,
+                                    )
                                 }
                             >
                                 <SelectTrigger className="w-full">

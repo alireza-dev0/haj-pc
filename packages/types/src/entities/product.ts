@@ -1,12 +1,11 @@
-
 export interface IProduct {
     id: string;
     name: string;
-    description: string;
     price: number;
-
-    // category: Category;
-
+    stock: number;
+    description: string;
+    thumbnail: string;
+    images: string[];
     createdAt: string;
     updatedAt: string;
 }

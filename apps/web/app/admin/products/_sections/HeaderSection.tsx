@@ -1,9 +1,8 @@
-"use client"
+'use client';
 import { Button } from '@/components/ui/button';
 import { ArrowRightIcon, PackageIcon, PackagePlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-
 
 export default function HeaderSection() {
     return (

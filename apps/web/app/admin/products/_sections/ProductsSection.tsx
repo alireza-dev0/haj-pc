@@ -38,9 +38,10 @@ export default function ProductsSection() {
     return (
         <div className="@container w-full flex flex-col gap-6">
             <div className="w-full grid grid-cols-1 gap-x-2 gap-y-3 @[600px]:grid-cols-2 @[900px]:grid-cols-3 @[1200px]:grid-cols-4 @[1500px]:grid-cols-5 @[1800px]:grid-cols-6">
-                {isLoading && Array.from({ length: 10 }).map((_, index) => (
-                    <ProductCardSkeleton key={index} />
-                ))}
+                {isLoading &&
+                    Array.from({ length: 10 }).map((_, index) => (
+                        <ProductCardSkeleton key={index} />
+                    ))}
 
                 {isError && (
                     <p className="col-span-full py-10 text-center text-error">
@@ -58,7 +59,7 @@ export default function ProductsSection() {
                     !isError &&
                     data?.items.map((product) => (
                         <ProductCard
-                            className='w-full grow shrink'
+                            className="w-full grow shrink"
                             key={product.id}
                             id={product.id}
                             name={product.name}
@@ -76,7 +77,9 @@ export default function ProductsSection() {
                                 href="#"
                                 text="قبلی"
                                 className={
-                                    page <= 1 ? 'pointer-events-none opacity-50' : ''
+                                    page <= 1
+                                        ? 'pointer-events-none opacity-50'
+                                        : ''
                                 }
                                 onClick={(event) => {
                                     event.preventDefault();
@@ -88,7 +91,8 @@ export default function ProductsSection() {
                         {pageNumbers.map((pageNumber, index) => {
                             const prevPage = pageNumbers[index - 1];
                             const showEllipsis =
-                                prevPage !== undefined && pageNumber - prevPage > 1;
+                                prevPage !== undefined &&
+                                pageNumber - prevPage > 1;
 
                             return (
                                 <React.Fragment key={pageNumber}>

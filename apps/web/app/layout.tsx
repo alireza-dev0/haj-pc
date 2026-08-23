@@ -32,10 +32,8 @@ const nunito = localFont({
         { path: '../public/fonts/nunito/Nunito-Regular.ttf', weight: '400' },
         { path: '../public/fonts/nunito/Nunito-SemiBold.ttf', weight: '600' },
     ],
-    variable: '--font-nunito'
+    variable: '--font-nunito',
 });
-
-
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -45,7 +43,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
     userScalable: false,
     width: 'device-width',
-    themeColor: '#000000'
+    themeColor: '#000000',
 };
 
 export default function RootLayout({
@@ -64,9 +62,7 @@ export default function RootLayout({
             )}
         >
             <body>
-                <Providers>
-                    {children}
-                </Providers>
+                <Providers>{children}</Providers>
                 <div className={`w-full ${nunito.className}`}></div>
             </body>
         </html>

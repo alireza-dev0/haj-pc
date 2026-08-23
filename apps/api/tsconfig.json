@@ -19,11 +19,20 @@
         "noImplicitAny": false,
         "strictBindCallApply": false,
         "noFallthroughCasesInSwitch": false,
+        "outDir": "./dist",
 
         "types": [
             "node",
             "jest"
-        ]
+        ],
+        "paths": {
+            "app/*": [
+                "./src/*"
+            ],
+            "modules/*": [
+                "./src/modules/*"
+            ],
+        }
     },
     "include": [
         "src/**/*.ts",

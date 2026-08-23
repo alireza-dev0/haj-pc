@@ -1,9 +1,12 @@
-import { ICategory, IProduct } from '@repo/types'
-import { ProductSort } from '../_stores/useFiltersStore'
+import { ICategory, IProduct } from '@repo/types';
+import { ProductSort } from '../_stores/useFiltersStore';
 
-export type FakeProduct = Pick<IProduct, 'id' | 'name' | 'price' | 'createdAt'> & {
-    category: Pick<ICategory, 'id' | 'slug' | 'name'>
-}
+export type FakeProduct = Pick<
+    IProduct,
+    'id' | 'name' | 'price' | 'createdAt'
+> & {
+    category: Pick<ICategory, 'id' | 'slug' | 'name'>;
+};
 
 export const fakeCategories: Pick<ICategory, 'id' | 'name' | 'slug'>[] = [
     { id: 'cat-1', name: 'پردازنده', slug: 'cpu' },
@@ -11,7 +14,7 @@ export const fakeCategories: Pick<ICategory, 'id' | 'name' | 'slug'>[] = [
     { id: 'cat-3', name: 'رم', slug: 'ram' },
     { id: 'cat-4', name: 'کارت گرافیک', slug: 'gpu' },
     { id: 'cat-5', name: 'ذخیره‌سازی', slug: 'storage' },
-]
+];
 
 const productNames = [
     'پردازنده Intel Core i5-13400F',
@@ -52,11 +55,11 @@ const productNames = [
     'رم Kingston Fury Beast 32GB',
     'کارت گرافیک RTX 3060',
     'SSD WD Blue SN580 1TB',
-]
+];
 
 export const fakeProducts: FakeProduct[] = productNames.map((name, index) => {
-    const category = fakeCategories[index % fakeCategories.length]!
-    const daysAgo = productNames.length - index
+    const category = fakeCategories[index % fakeCategories.length]!;
+    const daysAgo = productNames.length - index;
 
     return {
         id: `product-${index + 1}`,
@@ -64,21 +67,21 @@ export const fakeProducts: FakeProduct[] = productNames.map((name, index) => {
         price: 1_500_000 + index * 250_000,
         category,
         createdAt: new Date(Date.now() - daysAgo * 86_400_000).toISOString(),
-    }
-})
+    };
+});
 
 export type FetchFakeProductsParams = {
-    sort: ProductSort
-    search: string
-    categoryId: string | null
-    page: number
-    pageSize: number
-}
+    sort: ProductSort;
+    search: string;
+    categoryId: string | null;
+    page: number;
+    pageSize: number;
+};
 
 export type FetchFakeProductsResult = {
-    items: FakeProduct[]
-    total: number
-}
+    items: FakeProduct[];
+    total: number;
+};
 
 export async function fetchFakeProducts({
     sort,
@@ -87,30 +90,30 @@ export async function fetchFakeProducts({
     page,
     pageSize,
 }: FetchFakeProductsParams): Promise<FetchFakeProductsResult> {
-    await new Promise((resolve) => setTimeout(resolve, 300))
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
-    let result = [...fakeProducts]
+    let result = [...fakeProducts];
 
     if (search.trim()) {
-        const query = search.trim().toLowerCase()
+        const query = search.trim().toLowerCase();
         result = result.filter((product) =>
             product.name.toLowerCase().includes(query),
-        )
+        );
     }
 
     if (categoryId) {
-        result = result.filter((product) => product.category.id === categoryId)
+        result = result.filter((product) => product.category.id === categoryId);
     }
 
     result.sort((a, b) => {
-        const aTime = new Date(a.createdAt).getTime()
-        const bTime = new Date(b.createdAt).getTime()
-        return sort === 'newest' ? bTime - aTime : aTime - bTime
-    })
+        const aTime = new Date(a.createdAt).getTime();
+        const bTime = new Date(b.createdAt).getTime();
+        return sort === 'newest' ? bTime - aTime : aTime - bTime;
+    });
 
-    const total = result.length
-    const start = (page - 1) * pageSize
-    const items = result.slice(start, start + pageSize)
+    const total = result.length;
+    const start = (page - 1) * pageSize;
+    const items = result.slice(start, start + pageSize);
 
-    return { items, total }
+    return { items, total };
 }
