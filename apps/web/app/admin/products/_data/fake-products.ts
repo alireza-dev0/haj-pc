@@ -1,4 +1,4 @@
-import { ICategory, IProduct } from '@repo/types';
+import type { ICategory, IProduct } from '@repo/types';
 import { ProductSort } from '../_stores/useFiltersStore';
 
 export type FakeProduct = Pick<

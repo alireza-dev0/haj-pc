@@ -17,7 +17,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/store/useAuth';
-import { UserRole } from '@repo/types';
+import type { UserRole } from '@repo/types';
 import { ChevronsUpDownIcon, LogOutIcon, UserRoundIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React from 'react';
@@ -25,8 +25,8 @@ import Link from 'next/link';
 import { adminNavItems } from './nav-items';
 
 const roleLabel: Record<UserRole, string> = {
-    [UserRole.ADMIN]: 'مدیر سیستم',
-    [UserRole.USER]: 'کاربر',
+    "ADMIN": 'مدیر سیستم',
+    "USER": 'کاربر',
 };
 
 export default function DashboardSidebar() {

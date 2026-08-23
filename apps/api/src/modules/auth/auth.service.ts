@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import * as bcrypt from 'bcrypt';
-import { IUser, UserRole } from '@repo/types';
+import type { IUser, UserRole } from '@repo/types';
 import { PrismaService } from '../shared/prisma.service';
 
 type signin_input = Pick<IUser, 'email' | 'password'>;
@@ -54,7 +54,7 @@ export class AuthService {
                 email: input.email,
                 password,
                 name: input.name,
-                role: UserRole.USER,
+                role: "USER",
             },
         });
 

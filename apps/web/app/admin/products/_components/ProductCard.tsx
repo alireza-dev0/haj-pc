@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { EditIcon, EyeIcon, MoreVerticalIcon, Trash2Icon } from 'lucide-react';
-import { ICategory, IProduct } from '@repo/types';
+import type { ICategory, IProduct } from '@repo/types';
 import Link from 'next/link';
 import { priceFormater } from '@/utils';
 import { Badge } from '@/components/ui/badge';

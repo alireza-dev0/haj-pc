@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuth } from '@/store/useAuth';
-import { UserRole } from '@repo/types';
+import type { UserRole } from '@repo/types';
 import {
     BellIcon,
     Calendar,
@@ -31,8 +31,8 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
 
 const roleLabel: Record<UserRole, string> = {
-    [UserRole.ADMIN]: 'مدیر',
-    [UserRole.USER]: 'کاربر',
+    "ADMIN": 'مدیر',
+    "USER": 'کاربر',
 };
 
 export default function Header() {

@@ -5,7 +5,7 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 import { clientApi, getApiError } from '@/utils/api';
 import { useAuth } from '@/store/useAuth';
-import { IUser } from '@repo/types';
+import type { IUser } from '@repo/types';
 
 type SignupValues = {
     name: string;
