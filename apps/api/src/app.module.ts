@@ -3,6 +3,8 @@ import { SharedModule } from './modules/shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { CategoryModule } from './modules/category/category.module';
+import { ProductModule } from './modules/product/product.module';
 
 @Module({
     imports: [
@@ -16,6 +18,10 @@ import { UsersModule } from './modules/users/users.module';
         AuthModule,
 
         UsersModule,
+
+        CategoryModule,
+
+        ProductModule,
     ],
     controllers: [],
     providers: [],
