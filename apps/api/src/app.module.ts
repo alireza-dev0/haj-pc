@@ -9,6 +9,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { OrderModule } from './modules/order/order.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { SearchModule } from './modules/search/search.module';
+import { AppController } from './app.controller';
 
 @Module({
     imports: [
@@ -35,7 +36,7 @@ import { SearchModule } from './modules/search/search.module';
 
         SearchModule,
     ],
-    controllers: [],
+    controllers: [AppController],
     providers: [],
 })
 export class AppModule {}
