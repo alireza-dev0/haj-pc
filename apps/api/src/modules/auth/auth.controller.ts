@@ -16,6 +16,7 @@ import { AuthService } from './auth.service';
 import { SigninDto_Request, SigninDto_Response } from './DTOs/signin.dto';
 import { SignupDto_Request, SignupDto_Response } from './DTOs/signup.dto';
 import { RefreshGuard } from './guards/refresh.guard';
+import { UserRole } from '@repo/types';
 
 const ACCESS_MAX_AGE_MS = 15 * 60 * 1000;
 const REFRESH_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
@@ -93,19 +94,20 @@ export class AuthController {
 
     private setAuthCookies(
         res: Response,
-        user: { id: string; email: string; role: 'USER' | 'ADMIN' },
+        user: { id: string; email: string; role: UserRole, name: string },
     ) {
         const access_token = this.jwtService.sign(
             {
-                userId: user.id,
+                id: user.id,
                 email: user.email,
                 role: user.role,
+                name: user.name,
             } satisfies AccessJwtPayload,
-            { expiresIn: '15m' },
+            { expiresIn: ACCESS_MAX_AGE_MS },
         );
         const refresh_token = this.jwtService.sign(
             { userId: user.id } satisfies RefreshJwtPayload,
-            { expiresIn: '7d' },
+            { expiresIn: REFRESH_MAX_AGE_MS },
         );
 
         res.cookie('access_token', access_token, {
