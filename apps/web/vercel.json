@@ -6,5 +6,9 @@
             "main": true,
             "develop": true
         }
+    },
+    "github": {
+        "enabled": true,
+        "silent": true
     }
 }
