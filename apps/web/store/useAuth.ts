@@ -1,4 +1,6 @@
+import { clientApi } from '@/utils/api';
 import { IUser, UserRole } from '@repo/types';
+import { toast } from 'sonner';
 import { create } from 'zustand';
 
 interface UserPayload extends Pick<IUser, 'id' | 'email' | 'name' | 'role'> {}
@@ -18,15 +20,15 @@ export const useAuth = create<AuthState>((set) => ({
     login: async () => {
         set({ isLoading: true });
 
-        set({
-            user: {
-                id: '1',
-                email: 'test@test.com',
-                name: 'Test User',
-                role: "ADMIN",
-            },
-            isLoading: false,
-        });
+        try {
+            const res = await clientApi.get<UserPayload>('/auth/me');
+
+            set({ user: res.data });
+        } catch (error) {
+            toast.error('خطا در ورود به حساب کاربری');
+        } finally {
+            set({ isLoading: false });
+        }
     },
     logout: async () => {
         set({ isLoading: true });
