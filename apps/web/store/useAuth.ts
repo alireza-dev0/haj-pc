@@ -1,5 +1,6 @@
 import { clientApi } from '@/utils/api';
-import { IUser, UserRole } from '@repo/types';
+import { IUser } from '@repo/types';
+import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
 import { create } from 'zustand';
 
@@ -15,7 +16,7 @@ interface AuthState {
 
 export const useAuth = create<AuthState>((set) => ({
     user: null,
-    isLoading: false,
+    isLoading: true,
     setUser: (user) => set({ user }),
     login: async () => {
         set({ isLoading: true });
@@ -25,7 +26,14 @@ export const useAuth = create<AuthState>((set) => ({
 
             set({ user: res.data });
         } catch (error) {
-            toast.error('خطا در ورود به حساب کاربری');
+            set({ user: null });
+
+            const isUnauthorized =
+                isAxiosError(error) && error.response?.status === 401;
+
+            if (!isUnauthorized) {
+                toast.error('خطا در ورود به حساب کاربری');
+            }
         } finally {
             set({ isLoading: false });
         }
@@ -33,9 +41,16 @@ export const useAuth = create<AuthState>((set) => ({
     logout: async () => {
         set({ isLoading: true });
 
-        set({
-            user: null,
-            isLoading: false,
-        });
+        try {
+            await clientApi.post('/auth/logout');
+        } catch {
+            toast.error('خطا در خروج از حساب کاربری');
+        } finally {
+            set({
+                user: null,
+                isLoading: false,
+            });
+            window.location.assign('/auth/signin');
+        }
     },
 }));

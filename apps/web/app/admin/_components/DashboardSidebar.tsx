@@ -82,7 +82,7 @@ export default function DashboardSidebar() {
                             className="w-56"
                         >
                             <DropdownMenuItem
-                                render={<Link href="/admin/dashboard" />}
+                                render={<Link href="/admin/profile" />}
                             >
                                 <UserRoundIcon className="size-4 text-text-secondary" />
                                 حساب کاربری

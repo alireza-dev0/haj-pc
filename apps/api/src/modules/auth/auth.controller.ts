@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Get,
+    Patch,
     Post,
     Req,
     Res,
@@ -15,6 +16,10 @@ import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { SigninDto_Request, SigninDto_Response } from './DTOs/signin.dto';
 import { SignupDto_Request, SignupDto_Response } from './DTOs/signup.dto';
+import {
+    UpdateProfileDto_Request,
+    UpdateProfileDto_Response,
+} from './DTOs/update-profile.dto';
 import { RefreshGuard } from './guards/refresh.guard';
 import { UserRole } from '@repo/types';
 
@@ -82,6 +87,29 @@ export class AuthController {
         }
 
         const user = await this.authService.refresh({ id: userId });
+        this.setAuthCookies(res, user);
+        return user;
+    }
+
+    @UseGuards(AuthGuard('jwt-access'))
+    @Patch('/profile')
+    @ApiOkResponse({ type: UpdateProfileDto_Response })
+    async handleUpdateProfile(
+        @Req() req: Request,
+        @Body() body: UpdateProfileDto_Request,
+        @Res({ passthrough: true }) res: Response,
+    ): Promise<UpdateProfileDto_Response> {
+        const userId = req.user?.id;
+        if (!userId) {
+            throw new UnauthorizedException();
+        }
+
+        const user = await this.authService.updateProfile(userId, {
+            name: body.name,
+            email: body.email,
+            currentPassword: body.currentPassword,
+            newPassword: body.newPassword,
+        });
         this.setAuthCookies(res, user);
         return user;
     }

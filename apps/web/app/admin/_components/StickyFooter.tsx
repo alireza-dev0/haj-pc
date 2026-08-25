@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Grid2x2Icon, MenuIcon } from 'lucide-react';
+import { Grid2x2Icon } from 'lucide-react';
 import {
     Drawer,
     DrawerClose,
@@ -10,10 +10,12 @@ import {
     DrawerTrigger,
 } from '@/components/ui/drawer';
 import { adminNavItems } from './nav-items';
+import { MobileSearchOverlay } from './search/MobileSearchOverlay';
 
 export default function StickyFooter() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
+    const [searchOpen, setSearchOpen] = useState(false);
 
     return (
         <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4 md:hidden">
@@ -24,11 +26,14 @@ export default function StickyFooter() {
                 showSwipeHandle
             >
                 <div className="pointer-events-auto flex h-14 w-full max-w-70 items-center rounded-full border border-border bg-surface ps-5 pe-1.5 shadow-lg shadow-black/50">
-                    <input
-                        type="search"
-                        placeholder="جستجو"
-                        className="min-w-0 flex-1 bg-transparent text-md text-text-primary outline-none placeholder:text-text-muted"
-                    />
+                    <button
+                        type="button"
+                        onClick={() => setSearchOpen(true)}
+                        className="min-w-0 flex-1 bg-transparent text-start text-md text-text-muted outline-none"
+                        aria-label="باز کردن جستجو"
+                    >
+                        جستجو
+                    </button>
                     <DrawerTrigger className="flex size-11 shrink-0 items-center justify-center rounded-full bg-elevated-surface text-text-primary">
                         <Grid2x2Icon className="size-5" />
                     </DrawerTrigger>
@@ -60,6 +65,12 @@ export default function StickyFooter() {
                     </nav>
                 </DrawerContent>
             </Drawer>
+            <div className="pointer-events-auto">
+                <MobileSearchOverlay
+                    open={searchOpen}
+                    onOpenChange={setSearchOpen}
+                />
+            </div>
         </div>
     );
 }

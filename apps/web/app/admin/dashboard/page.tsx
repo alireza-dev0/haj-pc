@@ -9,9 +9,7 @@ export const metadata: Metadata = {
     description: 'Dashboard',
 };
 
-export default async function DashboardPage() {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
+export default function DashboardPage() {
     return (
         <div className="flex flex-col gap-8">
             <KpiSection />

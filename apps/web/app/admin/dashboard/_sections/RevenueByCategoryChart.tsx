@@ -13,30 +13,19 @@ import {
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-
-type Period = 'yearly' | 'monthly' | 'daily';
-
-const PERIOD_LABELS: Record<Period, string> = {
-    yearly: 'سالانه',
-    monthly: 'ماهانه',
-    daily: 'روزانه',
-};
-
-const CATEGORIES = [
-    'کارت گرافیک',
-    'پردازنده',
-    'مادربورد',
-    'رم',
-    'SSD',
-    'کیس',
-    'پاور',
-    'HDD',
-] as const;
+import { Skeleton } from '@/components/ui/skeleton';
+import { priceFormater } from '@/utils/price';
+import {
+    DASHBOARD_PERIOD_ITEMS,
+    type DashboardPeriod,
+    useDashboardStats,
+} from '../_hooks/useDashboardStats';
 
 const CATEGORY_COLORS = [
     'var(--color-chart-primary)',
@@ -49,26 +38,6 @@ const CATEGORY_COLORS = [
     'var(--color-chart-tertiary)',
 ] as const;
 
-const YEARLY_REVENUE = [
-    52_800_000, 18_400_000, 14_200_000, 9_600_000, 7_800_000, 6_200_000,
-    4_100_000, 3_400_000,
-] as const;
-
-const MONTHLY_REVENUE = [
-    1_150_000, 3_620_000, 2_480_000, 2_040_000, 1_780_000, 920_000, 640_000,
-    1_310_000,
-] as const;
-
-const DAILY_REVENUE = [
-    42_000, 38_000, 55_000, 128_000, 146_000, 72_000, 64_000, 21_000,
-] as const;
-
-const REVENUE_BY_PERIOD: Record<Period, readonly number[]> = {
-    yearly: YEARLY_REVENUE,
-    monthly: MONTHLY_REVENUE,
-    daily: DAILY_REVENUE,
-};
-
 const chartConfig = {
     revenue: {
         label: 'درآمد',
@@ -76,27 +45,26 @@ const chartConfig = {
     },
 } satisfies ChartConfig;
 
-function createChartData(period: Period) {
-    const revenues = REVENUE_BY_PERIOD[period];
-    const total = revenues.reduce((sum, value) => sum + value, 0);
-
-    return CATEGORIES.map((category, index) => {
-        const revenue = revenues[index] ?? 0;
-
-        return {
-            category,
-            revenue,
-            fill: CATEGORY_COLORS[index],
-            percent: Math.round((revenue / total) * 100),
-        };
-    });
-}
-
 export default function RevenueByCategoryChart({
     className,
 }: React.ComponentProps<'article'>) {
-    const [period, setPeriod] = useState<Period>('monthly');
-    const data = useMemo(() => createChartData(period), [period]);
+    const [period, setPeriod] = useState<DashboardPeriod>('month');
+    const { data, isLoading, isError, isPlaceholderData } =
+        useDashboardStats(period);
+
+    const chartData = useMemo(() => {
+        const rows = data?.revenueByCategory ?? [];
+        const total = rows.reduce((sum, item) => sum + item.revenue, 0);
+
+        return rows.map((item, index) => ({
+            category: item.category,
+            revenue: item.revenue,
+            fill: CATEGORY_COLORS[index % CATEGORY_COLORS.length],
+            percent: total > 0 ? Math.round((item.revenue / total) * 100) : 0,
+        }));
+    }, [data?.revenueByCategory]);
+
+    const showSkeleton = isLoading && !isPlaceholderData;
 
     return (
         <article
@@ -110,10 +78,10 @@ export default function RevenueByCategoryChart({
                     درآمد به تفکیک دسته
                 </h1>
                 <Select
+                    items={DASHBOARD_PERIOD_ITEMS}
                     value={period}
-                    onValueChange={(value) => setPeriod(value as Period)}
-                    itemToStringLabel={(value) =>
-                        PERIOD_LABELS[value as Period]
+                    onValueChange={(value) =>
+                        setPeriod(value as DashboardPeriod)
                     }
                 >
                     <SelectTrigger
@@ -128,9 +96,7 @@ export default function RevenueByCategoryChart({
                             </Button>
                         )}
                     >
-                        <SelectValue placeholder="انتخاب بازه">
-                            {PERIOD_LABELS[period]}
-                        </SelectValue>
+                        <SelectValue placeholder="انتخاب بازه" />
                     </SelectTrigger>
                     <SelectContent
                         side="bottom"
@@ -138,79 +104,115 @@ export default function RevenueByCategoryChart({
                         align="end"
                         alignItemWithTrigger={false}
                     >
-                        {(Object.keys(PERIOD_LABELS) as Period[]).map(
-                            (value) => (
-                                <SelectItem key={value} value={value}>
-                                    {PERIOD_LABELS[value]}
+                        <SelectGroup>
+                            {DASHBOARD_PERIOD_ITEMS.map((item) => (
+                                <SelectItem key={item.value} value={item.value}>
+                                    {item.label}
                                 </SelectItem>
-                            ),
-                        )}
+                            ))}
+                        </SelectGroup>
                     </SelectContent>
                 </Select>
             </header>
             <main className="flex min-h-0 flex-1 flex-col gap-4">
-                <div dir="ltr" className="mx-auto w-full max-w-56">
-                    <ChartContainer
-                        config={chartConfig}
-                        className="aspect-square h-auto w-full"
-                    >
-                        <PieChart key={period}>
-                            <ChartTooltip
-                                cursor={false}
-                                content={
-                                    <ChartTooltipContent
-                                        indicator="dot"
-                                        nameKey="revenue"
-                                        labelFormatter={(_, tooltipPayload) =>
-                                            tooltipPayload[0]?.payload?.category
+                {showSkeleton ? (
+                    <>
+                        <Skeleton className="mx-auto size-56 rounded-full" />
+                        <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                        </div>
+                    </>
+                ) : isError ? (
+                    <p className="flex flex-1 items-center justify-center py-10 text-sm text-error">
+                        خطا در دریافت درآمد دسته‌ها
+                    </p>
+                ) : chartData.length === 0 ? (
+                    <p className="flex flex-1 items-center justify-center py-10 text-sm text-text-secondary">
+                        داده‌ای برای این بازه نیست
+                    </p>
+                ) : (
+                    <>
+                        <div dir="ltr" className="mx-auto w-full max-w-56">
+                            <ChartContainer
+                                config={chartConfig}
+                                className="aspect-square h-auto w-full"
+                            >
+                                <PieChart key={period}>
+                                    <ChartTooltip
+                                        cursor={false}
+                                        content={
+                                            <ChartTooltipContent
+                                                indicator="dot"
+                                                nameKey="revenue"
+                                                labelFormatter={(
+                                                    _,
+                                                    tooltipPayload,
+                                                ) =>
+                                                    tooltipPayload[0]?.payload
+                                                        ?.category
+                                                }
+                                                formatter={(value) => (
+                                                    <span
+                                                        dir="ltr"
+                                                        className="ms-auto font-medium tabular-nums text-text-primary"
+                                                    >
+                                                        {priceFormater(
+                                                            Number(value ?? 0),
+                                                        )}
+                                                    </span>
+                                                )}
+                                            />
                                         }
                                     />
-                                }
-                            />
-                            <Pie
-                                data={data}
-                                dataKey="revenue"
-                                nameKey="category"
-                                innerRadius="58%"
-                                outerRadius="88%"
-                                paddingAngle={3}
-                                cornerRadius={8}
-                                stroke="var(--color-card)"
-                                strokeWidth={2}
-                                isAnimationActive
-                            >
-                                {data.map((item) => (
-                                    <Cell
-                                        key={item.category}
-                                        fill={item.fill}
+                                    <Pie
+                                        data={chartData}
+                                        dataKey="revenue"
+                                        nameKey="category"
+                                        innerRadius="58%"
+                                        outerRadius="88%"
+                                        paddingAngle={3}
+                                        cornerRadius={8}
+                                        stroke="var(--color-card)"
+                                        strokeWidth={2}
+                                        isAnimationActive
+                                    >
+                                        {chartData.map((item) => (
+                                            <Cell
+                                                key={item.category}
+                                                fill={item.fill}
+                                            />
+                                        ))}
+                                    </Pie>
+                                </PieChart>
+                            </ChartContainer>
+                        </div>
+                        <ul className="grid grid-cols-2 gap-x-3 gap-y-2">
+                            {chartData.map((item) => (
+                                <li
+                                    key={item.category}
+                                    className="flex min-w-0 items-center gap-2"
+                                >
+                                    <span
+                                        className="size-2 shrink-0 rounded-full"
+                                        style={{ backgroundColor: item.fill }}
                                     />
-                                ))}
-                            </Pie>
-                        </PieChart>
-                    </ChartContainer>
-                </div>
-                <ul className="grid grid-cols-2 gap-x-3 gap-y-2">
-                    {data.map((item) => (
-                        <li
-                            key={item.category}
-                            className="flex min-w-0 items-center gap-2"
-                        >
-                            <span
-                                className="size-2 shrink-0 rounded-full"
-                                style={{ backgroundColor: item.fill }}
-                            />
-                            <span className="min-w-0 truncate text-xs text-text-secondary">
-                                {item.category}
-                            </span>
-                            <span
-                                dir="ltr"
-                                className="ms-auto shrink-0 text-xs font-medium tabular-nums text-text-primary"
-                            >
-                                {item.percent}%
-                            </span>
-                        </li>
-                    ))}
-                </ul>
+                                    <span className="min-w-0 truncate text-xs text-text-secondary">
+                                        {item.category}
+                                    </span>
+                                    <span
+                                        dir="ltr"
+                                        className="ms-auto shrink-0 text-xs font-medium tabular-nums text-text-primary"
+                                    >
+                                        {item.percent}%
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
             </main>
         </article>
     );

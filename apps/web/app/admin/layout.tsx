@@ -4,13 +4,18 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from './_components/DashboardSidebar';
 import Header from './_components/Header';
 import StickyFooter from './_components/StickyFooter';
+import { requireAdmin } from './_lib/require-admin';
 
 export const metadata: Metadata = {
     title: 'Admin',
     description: 'Admin',
 };
 
-export default function AdminLayout({ children }: LayoutProps<'/admin'>) {
+export default async function AdminLayout({
+    children,
+}: LayoutProps<'/admin'>) {
+    await requireAdmin();
+
     return (
         <div className="w-full h-dvh">
             <SidebarProvider

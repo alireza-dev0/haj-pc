@@ -2,6 +2,9 @@
 const nextConfig = {
     transpilePackages: ['@repo/types'],
     allowedDevOrigins: ['10.216.218.38'],
+    experimental: {
+        authInterrupts: true,
+    },
 
     rewrites: async () => {
         return [
@@ -10,6 +13,16 @@ const nextConfig = {
                 destination: `${process.env.API_URL}/api/:path*`
             }
         ]
+    },
+
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'placehold.co',
+            },
+
+        ],
     }
 };
 

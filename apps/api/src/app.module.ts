@@ -5,6 +5,10 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { CategoryModule } from './modules/category/category.module';
 import { ProductModule } from './modules/product/product.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { OrderModule } from './modules/order/order.module';
+import { StorageModule } from './modules/storage/storage.module';
+import { SearchModule } from './modules/search/search.module';
 
 @Module({
     imports: [
@@ -22,6 +26,14 @@ import { ProductModule } from './modules/product/product.module';
         CategoryModule,
 
         ProductModule,
+
+        DashboardModule,
+
+        OrderModule,
+
+        StorageModule,
+
+        SearchModule,
     ],
     controllers: [],
     providers: [],
