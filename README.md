@@ -91,3 +91,7 @@ pnpm --filter api dev    # backend only
 
 - [Frontend](apps/web/README.md)
 - [Backend](apps/api/README.md)
+
+## License
+
+[MIT](LICENSE) © 2026 Alireza Azimi

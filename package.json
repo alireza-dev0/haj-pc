@@ -1,5 +1,9 @@
 {
     "name": "haj-pc",
+    "version": "1.0.0",
+    "description": "Haj PC Dashboard fullstack application",
+    "author": "Alireza Azimi",
+    "license": "MIT",
     "private": true,
     "scripts": {
         "build": "turbo run build",
