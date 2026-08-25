@@ -25,7 +25,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { useFiltersStore } from '../_stores/useFiltersStore';
-import { fakeCategories } from '../_data/fake-products';
+import { useCategories } from '../_hooks/useCategories';
 
 const sortOptions = [
     { value: 'newest', label: 'جدید ترین' },
@@ -43,6 +43,7 @@ export default function ToolbarSection() {
         resetFilters,
     } = useFiltersStore();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const { data: categories } = useCategories();
 
     return (
         <div className="w-full flex flex-col gap-3.5 md:flex-row-reverse md:items-center md:justify-between md:gap-0">
@@ -137,7 +138,7 @@ export default function ToolbarSection() {
                                     <SelectItem value="all" label="همه">
                                         همه
                                     </SelectItem>
-                                    {fakeCategories.map((category) => (
+                                    {(categories ?? []).map((category) => (
                                         <SelectItem
                                             key={category.id}
                                             value={category.id}

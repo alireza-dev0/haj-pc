@@ -16,6 +16,7 @@ import {
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 
+
 export const ProductCardSkeleton = () => {
     return (
         <article className="relative w-full flex gap-3 p-3 rounded-xl bg-card">
@@ -32,7 +33,7 @@ export const ProductCardSkeleton = () => {
     );
 };
 
-interface ProductCardProps extends Pick<IProduct, 'id' | 'name' | 'price'> {
+interface ProductCardProps extends Pick<IProduct, 'id' | 'name' | 'price' | 'thumbnail'> {
     category: Pick<ICategory, 'slug' | 'name'>;
 }
 
@@ -40,6 +41,7 @@ export default function ProductCard({
     id,
     name,
     price,
+    thumbnail,
     category,
     className,
     ...props
@@ -53,7 +55,14 @@ export default function ProductCard({
             )}
             {...props}
         >
-            <div className="relative aspect-square bg-elevated-surface w-1/3 min-w-26 rounded-lg overflow-hidden"></div>
+            <div className="relative aspect-square bg-elevated-surface w-1/3 min-w-26 rounded-lg overflow-hidden">
+                <Image
+                    src={thumbnail}
+                    alt={name}
+                    fill
+                    className='object-contain object-center'
+                ></Image>
+            </div>
             <main className="w-full grow shrink flex flex-col items-start justify-between">
                 <div className="w-full flex items-center justify-end">
                     <DropdownMenu>

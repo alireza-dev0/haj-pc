@@ -64,6 +64,7 @@ export default function ProductsSection() {
                             id={product.id}
                             name={product.name}
                             price={product.price}
+                            thumbnail={product.thumbnail}
                             category={product.category}
                         />
                     ))}
