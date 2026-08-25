@@ -1,98 +1,106 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+<div align="center">
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Haj PC — API
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+NestJS REST backend for the store: JWT cookies, Prisma on Postgres, product images on Supabase.
 
-## Description
+<br />
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Passport](https://img.shields.io/badge/Passport-34E27A?style=for-the-badge&logo=passport&logoColor=black)
+![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
 
-## Project setup
+</div>
 
-```bash
-$ pnpm install
-```
+---
 
-## Compile and run the project
+## What it serves
 
-```bash
-# development
-$ pnpm run start
+Global prefix: **`/api`**. CORS is locked to `FRONTEND_URL` with credentials.
 
-# watch mode
-$ pnpm run start:dev
+| Module | Responsibility |
+| --- | --- |
+| **Auth** | Sign-in, refresh, profile — JWT in HTTP-only cookies |
+| **Users** | Admin CRUD, roles (`ADMIN` / `USER`) |
+| **Products** | Catalog, stock, images |
+| **Categories** | Product grouping |
+| **Orders** | Lifecycle: pending → processing → shipped → delivered |
+| **Dashboard** | Aggregates for the admin home |
+| **Search** | Cross-entity lookup |
+| **Storage** | Image upload/delete (Supabase bucket) |
 
-# production mode
-$ pnpm run start:prod
-```
+Validation is **Zod** (`nestjs-zod`). Shared shapes live in `@repo/types`.
 
-## Run tests
+## Run it
+
+From the **repo root**:
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm install
+cp apps/api/.env.example apps/api/.env
+# fill DATABASE_URL, JWT_SECRET, FRONTEND_URL, Supabase…
+pnpm --filter api dev
 ```
 
-## Deployment
+Or from this folder: `pnpm dev` (watch mode, `NODE_ENV=development`).
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+| | |
+| --- | --- |
+| API | [http://localhost:7700/api](http://localhost:7700/api) |
+| Scalar | [http://localhost:7700/api/docs/scalar](http://localhost:7700/api/docs/scalar) |
+| Swagger | [http://localhost:7700/api/docs/swagger](http://localhost:7700/api/docs/swagger) |
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Docs routes are registered in **development** only.
+
+### Database
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+pnpm db:seed    # prisma/seed.ts via tsx
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Prisma client is generated into `src/prisma/generated`. Provider: **PostgreSQL**.
 
-## Resources
+## Environment
 
-Check out a few resources that may come in handy when working with NestJS:
+See [`.env.example`](.env.example):
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_URL` / `DIRECT_URL` | Postgres (Prisma) |
+| `SUPABASE_URL` / `SUPABASE_SECRET` | Storage client |
+| `SUPABASE_STORAGE_BUCKET` | Default `products` |
+| `FRONTEND_URL` | CORS origin |
+| `PORT` | Default **7700** |
+| `JWT_SECRET` | Access/refresh signing |
+| `REDIS_URL` | Optional cache |
 
-## Support
+Never commit `.env`.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Scripts
 
-## Stay in touch
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Watch |
+| `pnpm start` | One-shot development |
+| `pnpm start:prod` | `node dist/main` |
+| `pnpm build` | `nest build` |
+| `pnpm lint` | ESLint |
+| `pnpm test` / `test:e2e` / `test:cov` | Jest |
+| `pnpm db:seed` | Seed |
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Layout
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```
+src/
+├── main.ts              Prefix, CORS, Scalar + Swagger
+├── modules/             auth, users, product, category, order, dashboard, search, storage
+└── common/              guards, filters, role decorator
+prisma/
+├── schema.prisma
+└── seed.ts
+```

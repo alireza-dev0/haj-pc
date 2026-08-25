@@ -6,9 +6,14 @@ import { clientApi } from '@/utils/api';
 import { useDebounce } from '@/hooks/use-debounce';
 import { useFiltersStore } from '../_stores/useFiltersStore';
 
-export type AdminProduct = Pick<IProduct, 'id' | 'name' | 'price' | 'thumbnail'> & {
+export type AdminProduct = Pick<
+    IProduct,
+    'id' | 'name' | 'price' | 'thumbnail'
+> & {
     category: Pick<ICategory, 'id' | 'name' | 'slug'>;
 };
+
+export const ADMIN_PRODUCTS_QUERY_KEY = ['admin-products'] as const;
 
 export type ProductsResult = {
     items: AdminProduct[];
@@ -48,7 +53,7 @@ export function useProducts() {
 
     return useQuery({
         queryKey: [
-            'admin-products',
+            ...ADMIN_PRODUCTS_QUERY_KEY,
             { sort, search: debouncedSearch, categoryId, page, pageSize },
         ],
         queryFn: () =>

@@ -8,16 +8,11 @@ import {
     Calendar,
     ChevronDownIcon,
     LogOutIcon,
-    SearchIcon,
     UserRoundIcon,
 } from 'lucide-react';
 import React from 'react';
-import {
-    InputGroup,
-    InputGroupInput,
-    InputGroupAddon,
-} from '@/components/ui/input-group';
 import { Skeleton } from '@/components/ui/skeleton';
+import { HeaderSearch } from './search/HeaderSearch';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -43,12 +38,7 @@ export default function Header() {
         <header className="w-full flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <SidebarTrigger className="hidden md:flex"></SidebarTrigger>
-                <InputGroup className="h-11 rounded-full hidden md:flex">
-                    <InputGroupAddon>
-                        <SearchIcon className="size-4 text-text-secondary"></SearchIcon>
-                    </InputGroupAddon>
-                    <InputGroupInput placeholder="جستجو"></InputGroupInput>
-                </InputGroup>
+                <HeaderSearch />
                 <div className="flex md:hidden">
                     {isLoading ? (
                         <Skeleton className="rounded-full h-12 w-21"></Skeleton>
@@ -77,7 +67,7 @@ export default function Header() {
                                 </DropdownMenuGroup>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
-                                    render={<Link href="/admin/dashboard" />}
+                                    render={<Link href="/admin/profile" />}
                                 >
                                     <UserRoundIcon className="size-4 text-text-secondary" />
                                     حساب کاربری

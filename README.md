@@ -1,159 +1,93 @@
-# Turborepo starter
+<div align="center">
 
-This Turborepo starter is maintained by the Turborepo core team.
+# Haj PC
 
-## Using this example
+**Admin platform for a PC hardware store** — catalog, orders, users, and live store analytics in one Turborepo.
 
-Run the following command:
+<br />
 
-```sh
-npx create-turbo@latest
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Turborepo](https://img.shields.io/badge/Turborepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white)
+![pnpm](https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+
+<br />
+
+<img src="screenshots/screenshot.png" alt="Haj PC admin dashboard" width="80%" />
+
+<p><em>Dark admin dashboard — KPIs, revenue by category, and 30-day order trends.</em></p>
+
+</div>
+
+---
+
+## What it is
+
+Haj PC is a monorepo for running a PC parts shop from the back office: products and images, categories, orders, staff users, and a dashboard that actually reflects the store.
+
+| App | Path | Role |
+| --- | --- | --- |
+| **Web** | [`apps/web`](apps/web) | Next.js admin UI (RTL, dark theme) |
+| **API** | [`apps/api`](apps/api) | NestJS REST API, JWT auth, Prisma, storage |
+| **Types** | [`packages/types`](packages/types) | Shared TypeScript contracts |
+
+## Stack
+
+```
+haj-pc/
+├── apps/
+│   ├── web/          Next.js 16 · React 19 · Tailwind · TanStack Query
+│   └── api/          NestJS 11 · Prisma · PostgreSQL · Supabase Storage
+├── packages/
+│   ├── types/        Shared entities (product, order, user, …)
+│   ├── eslint-config/
+│   └── typescript-config/
+└── screenshots/
 ```
 
-## What's inside?
+## Quick start
 
-This Turborepo includes the following packages/apps:
+**Requirements:** Node.js 18+, [pnpm](https://pnpm.io) 11.
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```bash
+pnpm install
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local   # if you keep a local copy
 ```
 
-Without global `turbo`, use your package manager:
+Fill `apps/api/.env` (`DATABASE_URL`, `JWT_SECRET`, `FRONTEND_URL`, Supabase keys). Web talks to the API through `API_URL` (default `http://localhost:7700`).
 
-```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
+```bash
+pnpm dev
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+| Service | URL |
+| --- | --- |
+| Admin | [http://localhost:3000](http://localhost:3000) |
+| API | [http://localhost:7700/api](http://localhost:7700/api) |
+| Scalar docs | [http://localhost:7700/api/docs/scalar](http://localhost:7700/api/docs/scalar) |
+| Swagger | [http://localhost:7700/api/docs/swagger](http://localhost:7700/api/docs/swagger) |
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Root `/` sends you to sign-in, then `/admin/dashboard`.
 
-```sh
-turbo build --filter=docs
+### Useful commands
+
+```bash
+pnpm dev                 # all apps
+pnpm build               # all apps
+pnpm lint
+pnpm check-types
+pnpm --filter web dev    # frontend only
+pnpm --filter api dev    # backend only
 ```
 
-Without global `turbo`:
+## Docs
 
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- [Frontend](apps/web/README.md)
+- [Backend](apps/api/README.md)

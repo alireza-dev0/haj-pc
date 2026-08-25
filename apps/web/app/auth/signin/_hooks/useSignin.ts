@@ -1,9 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 import { clientApi, getApiError } from '@/utils/api';
+import { getSafeCallbackUrl } from '@/lib/callback-url';
 import { useAuth } from '@/store/useAuth';
 import type { IUser } from '@repo/types';
 
@@ -20,6 +21,7 @@ type UseSigninReturn = UseFormReturn<SigninFormValues> & {
 
 export function useSignin(): UseSigninReturn {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const setUser = useAuth((s) => s.setUser);
 
     const form = useForm<SigninFormValues>({
@@ -37,7 +39,7 @@ export function useSignin(): UseSigninReturn {
             );
             setUser(data);
             toast.success('ورود با موفقیت انجام شد');
-            router.push('/');
+            router.push(getSafeCallbackUrl(searchParams.get('callbackUrl')));
         } catch (error) {
             const { message, fields } = getApiError(error);
             const hasFields = fields && Object.keys(fields).length > 0;

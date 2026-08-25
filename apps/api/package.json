@@ -17,10 +17,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:seed": "prisma db seed"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@repo/types": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
@@ -29,7 +32,9 @@
     "@nestjs/platform-express": "^11.0.1",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
+    "@repo/types": "workspace:*",
     "@scalar/nestjs-api-reference": "^1.2.16",
+    "@supabase/supabase-js": "^2.112.4",
     "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
@@ -54,6 +59,7 @@
     "@nestjs/testing": "^11.0.1",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
+    "@types/multer": "^2.2.0",
     "@types/node": "^24.0.0",
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
@@ -70,6 +76,7 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.23.12",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
   },
