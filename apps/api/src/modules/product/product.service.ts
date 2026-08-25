@@ -54,7 +54,12 @@ type product_detail_output = {
     stock: number;
     categoryId: string;
     category: { id: string; name: string; slug: string };
-    images: { id: string; url: string; sortOrder: number; isPrimary: boolean }[];
+    images: {
+        id: string;
+        url: string;
+        sortOrder: number;
+        isPrimary: boolean;
+    }[];
     createdAt: Date;
     updatedAt: Date;
 };
@@ -82,7 +87,9 @@ export class ProductService {
         const [products, total] = await Promise.all([
             this.prisma.product.findMany({
                 where,
-                orderBy: { createdAt: input.sort === 'newest' ? 'desc' : 'asc' },
+                orderBy: {
+                    createdAt: input.sort === 'newest' ? 'desc' : 'asc',
+                },
                 skip: (input.page - 1) * input.pageSize,
                 take: input.pageSize,
                 include: {
@@ -118,13 +125,15 @@ export class ProductService {
         return product;
     }
 
-    async createProduct(input: create_product_input): Promise<product_detail_output> {
+    async createProduct(
+        input: create_product_input,
+    ): Promise<product_detail_output> {
         await this.assertCategoryExists(input.categoryId);
 
         const productId = randomUUID();
         const images = this.mapImages(productId, input.images);
 
-        return this.prisma.product.create({
+        const product = await this.prisma.product.create({
             data: {
                 id: productId,
                 name: input.name,
@@ -132,10 +141,18 @@ export class ProductService {
                 price: input.price,
                 stock: input.stock,
                 description: input.description ?? '',
-                images: images.length ? { create: images } : undefined,
             },
             include: productDetailInclude,
         });
+
+        await this.prisma.productImage.createMany({
+            data: images.map((image) => ({
+                ...image,
+                productId,
+            })),
+        });
+
+        return await this.getProductById(productId);
     }
 
     async updateProduct(
@@ -163,8 +180,12 @@ export class ProductService {
                     ...(input.categoryId !== undefined
                         ? { categoryId: input.categoryId }
                         : {}),
-                    ...(input.price !== undefined ? { price: input.price } : {}),
-                    ...(input.stock !== undefined ? { stock: input.stock } : {}),
+                    ...(input.price !== undefined
+                        ? { price: input.price }
+                        : {}),
+                    ...(input.stock !== undefined
+                        ? { stock: input.stock }
+                        : {}),
                     ...(input.description !== undefined
                         ? { description: input.description }
                         : {}),
