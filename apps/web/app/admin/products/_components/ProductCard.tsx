@@ -1,7 +1,12 @@
 'use client';
-import Image from 'next/image';
-import React from 'react';
-import { EditIcon, EyeIcon, MoreVerticalIcon, Trash2Icon } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+    EditIcon,
+    EyeIcon,
+    MoreVerticalIcon,
+    PackageIcon,
+    Trash2Icon,
+} from 'lucide-react';
 import type { ICategory, IProduct } from '@repo/types';
 import Link from 'next/link';
 import { priceFormater } from '@/utils';
@@ -15,7 +20,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
-
+import DeleteProductDialog from './DeleteProductDialog';
 
 export const ProductCardSkeleton = () => {
     return (
@@ -33,7 +38,10 @@ export const ProductCardSkeleton = () => {
     );
 };
 
-interface ProductCardProps extends Pick<IProduct, 'id' | 'name' | 'price' | 'thumbnail'> {
+interface ProductCardProps extends Pick<
+    IProduct,
+    'id' | 'name' | 'price' | 'thumbnail'
+> {
     category: Pick<ICategory, 'slug' | 'name'>;
 }
 
@@ -46,6 +54,8 @@ export default function ProductCard({
     className,
     ...props
 }: ProductCardProps & React.HTMLAttributes<HTMLDivElement>) {
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
     return (
         <article
             key={id}
@@ -55,13 +65,21 @@ export default function ProductCard({
             )}
             {...props}
         >
-            <div className="relative aspect-square bg-elevated-surface w-1/3 min-w-26 rounded-lg overflow-hidden">
-                <Image
-                    src={thumbnail}
-                    alt={name}
-                    fill
-                    className='object-contain object-center'
-                ></Image>
+            <div className="relative flex aspect-square w-1/3 min-w-26 items-center justify-center overflow-hidden rounded-lg bg-elevated-surface">
+                {thumbnail ? (
+                    // List thumbnails come from the primary image; URLs may be off-site.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                        src={thumbnail}
+                        alt={name}
+                        className="size-full object-cover object-center"
+                    />
+                ) : (
+                    <PackageIcon
+                        className="size-8 text-text-muted"
+                        strokeWidth={1.5}
+                    />
+                )}
             </div>
             <main className="w-full grow shrink flex flex-col items-start justify-between">
                 <div className="w-full flex items-center justify-end">
@@ -77,21 +95,38 @@ export default function ProductCard({
                             <MoreVerticalIcon></MoreVerticalIcon>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="min-w-40">
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                                nativeButton={false}
+                                render={
+                                    <Link href={`/admin/products/${id}/edit`} />
+                                }
+                            >
                                 <EditIcon></EditIcon>
                                 <span>ویرایش</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                                nativeButton={false}
+                                render={<Link href={`/admin/products/${id}`} />}
+                            >
                                 <EyeIcon></EyeIcon>
                                 <span>مشاهده جزئیات</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem variant="destructive">
+                            <DropdownMenuItem
+                                variant="destructive"
+                                onClick={() => setIsDeleteOpen(true)}
+                            >
                                 <Trash2Icon></Trash2Icon>
                                 <span>حذف</span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
+                <DeleteProductDialog
+                    productId={id}
+                    productName={name}
+                    open={isDeleteOpen}
+                    onOpenChange={setIsDeleteOpen}
+                />
                 <Link
                     href={`/admin/products/${id}`}
                     className="w-full text-wrap text-base font-medium text-text-primary hover:text-info-darker"

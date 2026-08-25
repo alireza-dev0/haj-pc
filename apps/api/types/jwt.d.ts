@@ -4,9 +4,10 @@ declare global {
     }
 
     interface AccessJwtPayload {
-        userId: string;
+        id: string;
         email: string;
-        role: "USER" | "ADMIN";
+        role: UserRole;
+        name: string;
     }
 }
 

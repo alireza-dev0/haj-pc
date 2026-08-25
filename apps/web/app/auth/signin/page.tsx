@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { SigninPage } from './_components/SigninPage';
 
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-    return <SigninPage />;
+    return (
+        <Suspense>
+            <SigninPage />
+        </Suspense>
+    );
 }

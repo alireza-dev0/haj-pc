@@ -6,6 +6,7 @@ import { FilterIcon, PackagePlusIcon, SearchIcon } from 'lucide-react';
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
     SelectTrigger,
     SelectValue,
@@ -44,6 +45,13 @@ export default function ToolbarSection() {
     } = useFiltersStore();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const { data: categories } = useCategories();
+    const categoryItems = [
+        { label: 'همه', value: 'all' },
+        ...(categories ?? []).map((category) => ({
+            label: category.name,
+            value: category.id,
+        })),
+    ];
 
     return (
         <div className="w-full flex flex-col gap-3.5 md:flex-row-reverse md:items-center md:justify-between md:gap-0">
@@ -64,6 +72,7 @@ export default function ToolbarSection() {
             </Button>
             <div className="w-full flex items-center gap-2.5 md:w-min">
                 <Select
+                    items={sortOptions}
                     value={sort}
                     onValueChange={(value) => setSort(value as typeof sort)}
                 >
@@ -81,7 +90,7 @@ export default function ToolbarSection() {
                             </Button>
                         )}
                     >
-                        <SelectValue placeholder="ترتیب بر اساس"></SelectValue>
+                        <SelectValue placeholder="ترتیب بر اساس" />
                     </SelectTrigger>
                     <SelectContent
                         side="bottom"
@@ -90,16 +99,17 @@ export default function ToolbarSection() {
                         alignOffset={0}
                         alignItemWithTrigger={false}
                     >
-                        {sortOptions.map((option) => (
-                            <SelectItem
-                                key={option.value}
-                                value={option.value}
-                                label={option.label}
-                                className="h-10 px-3"
-                            >
-                                {option.label}
-                            </SelectItem>
-                        ))}
+                        <SelectGroup>
+                            {sortOptions.map((option) => (
+                                <SelectItem
+                                    key={option.value}
+                                    value={option.value}
+                                    className="h-10 px-3"
+                                >
+                                    {option.label}
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
                     </SelectContent>
                 </Select>
                 <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
@@ -124,6 +134,7 @@ export default function ToolbarSection() {
                                 دسته‌بندی
                             </label>
                             <Select
+                                items={categoryItems}
                                 value={categoryId ?? 'all'}
                                 onValueChange={(value) =>
                                     setCategoryId(
@@ -135,18 +146,16 @@ export default function ToolbarSection() {
                                     <SelectValue placeholder="انتخاب دسته‌بندی" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all" label="همه">
-                                        همه
-                                    </SelectItem>
-                                    {(categories ?? []).map((category) => (
-                                        <SelectItem
-                                            key={category.id}
-                                            value={category.id}
-                                            label={category.name}
-                                        >
-                                            {category.name}
-                                        </SelectItem>
-                                    ))}
+                                    <SelectGroup>
+                                        {categoryItems.map((item) => (
+                                            <SelectItem
+                                                key={item.value}
+                                                value={item.value}
+                                            >
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
                                 </SelectContent>
                             </Select>
                         </div>
