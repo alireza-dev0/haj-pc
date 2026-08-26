@@ -165,37 +165,37 @@ export class ProductService {
             await this.assertCategoryExists(input.categoryId);
         }
 
-        const replaceImages = input.images !== undefined;
-        const images = replaceImages ? this.mapImages(id, input.images) : [];
-
-        return this.prisma.$transaction(async (tx) => {
-            if (replaceImages) {
-                await tx.productImage.deleteMany({ where: { productId: id } });
-            }
-
-            return tx.product.update({
-                where: { id },
-                data: {
-                    ...(input.name !== undefined ? { name: input.name } : {}),
-                    ...(input.categoryId !== undefined
-                        ? { categoryId: input.categoryId }
-                        : {}),
-                    ...(input.price !== undefined
-                        ? { price: input.price }
-                        : {}),
-                    ...(input.stock !== undefined
-                        ? { stock: input.stock }
-                        : {}),
-                    ...(input.description !== undefined
-                        ? { description: input.description }
-                        : {}),
-                    ...(replaceImages && images.length
-                        ? { images: { create: images } }
-                        : {}),
-                },
-                include: productDetailInclude,
-            });
+        await this.prisma.product.update({
+            where: { id },
+            data: {
+                ...(input.name !== undefined ? { name: input.name } : {}),
+                ...(input.categoryId !== undefined
+                    ? { categoryId: input.categoryId }
+                    : {}),
+                ...(input.price !== undefined ? { price: input.price } : {}),
+                ...(input.stock !== undefined ? { stock: input.stock } : {}),
+                ...(input.description !== undefined
+                    ? { description: input.description }
+                    : {}),
+            },
         });
+
+        if (input.images !== undefined) {
+            const images = this.mapImages(id, input.images);
+
+            await this.prisma.productImage.deleteMany({
+                where: { productId: id },
+            });
+
+            await this.prisma.productImage.createMany({
+                data: images.map((image) => ({
+                    ...image,
+                    productId: id,
+                })),
+            });
+        }
+
+        return await this.getProductById(id);
     }
 
     async deleteProduct(id: string): Promise<{ id: string }> {

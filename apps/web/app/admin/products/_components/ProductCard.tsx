@@ -129,7 +129,7 @@ export default function ProductCard({
                 />
                 <Link
                     href={`/admin/products/${id}`}
-                    className="w-full text-wrap text-base font-medium text-text-primary hover:text-info-darker"
+                    className="w-full text-wrap text-base font-medium text-text-primary hover:text-info-darker line-clamp-2"
                 >
                     {name}
                 </Link>
